@@ -2,14 +2,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { google } = require("googleapis");
-const open = (...args) => import("open").then((mod) => mod.default(...args));
 require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -37,8 +36,10 @@ app.get("/auth/google", async (req, res) => {
       scope: ["https://www.googleapis.com/auth/calendar"],
     });
 
-    await open(url);
-    res.send("Opened Google auth page. Complete the sign-in flow in your browser.");
+    res.json({
+      message: "Open this URL in your browser to authorize Google Calendar access.",
+      authUrl: url,
+    });
   } catch (error) {
     console.error("Auth URL error:", error.message);
     res.status(500).send("Failed to start Google auth");
@@ -52,9 +53,9 @@ app.get("/oauth2callback", async (req, res) => {
 
     console.log("\n=== GOOGLE TOKENS ===");
     console.log(tokens);
-    console.log("=== COPY refresh_token into your .env as GOOGLE_REFRESH_TOKEN ===\n");
+    console.log("=== COPY refresh_token into your .env or Render env vars as GOOGLE_REFRESH_TOKEN ===\n");
 
-    res.send("Google auth successful. Check Terminal 1 and copy the refresh_token into .env.");
+    res.send("Google auth successful. Copy the refresh_token from logs into your environment variables.");
   } catch (error) {
     console.error("OAuth callback error:", error.message);
     res.status(500).send("OAuth failed");
@@ -70,6 +71,7 @@ function parseDateTime(date, time) {
   if (d === "tomorrow") {
     baseDate.setDate(baseDate.getDate() + 1);
   } else if (d === "today") {
+    // keep current date
   } else {
     const parsed = new Date(`${date} ${now.getFullYear()}`);
     if (!isNaN(parsed.getTime())) {
@@ -163,6 +165,5 @@ app.post("/schedule", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Authorize Google at: http://localhost:${PORT}/auth/google`);
+  console.log(`Server running on port ${PORT}`);
 });
