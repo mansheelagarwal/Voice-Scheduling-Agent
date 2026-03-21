@@ -23,23 +23,27 @@ This project implements a deployed voice scheduling agent that:
 - OpenAI (GPT-4.1) – conversational reasoning  
 - Node.js + Express – backend server  
 - Google Calendar API – event creation  
-- ngrok – public deployment of backend  
+- Render – backend deployment  
 
 ---
 
 ## Architecture
 
-User Voice → Vapi Assistant → Tool Call → ngrok (public URL) → Express Backend → Google Calendar API
+User Voice → Vapi Assistant → Tool Call → Render (public URL) → Express Backend → Google Calendar API
 
 ---
 
 ## Deployed URL
 
-Backend (public via ngrok):
+Backend (hosted on Render):
 
-https://leta-ceorlish-semiorientally.ngrok-free.dev
+https://voice-scheduling-agent-npu9.onrender.com
 
-Note: This ngrok URL may change if the server is restarted.
+Endpoint used by the voice agent:
+
+https://voice-scheduling-agent-npu9.onrender.com/schedule
+
+Note: Free Render instances may take ~30–50 seconds to wake up on first request.
 
 ---
 
@@ -49,7 +53,7 @@ Note: This ngrok URL may change if the server is restarted.
 - Structured scheduling flow  
 - Confirmation before booking  
 - Real Google Calendar event creation  
-- Publicly accessible backend endpoint  
+- Publicly accessible deployed backend  
 
 ---
 
@@ -73,8 +77,8 @@ This demonstrates:
 
 You can test the deployed backend directly using:
 
-curl -X POST https://leta-ceorlish-semiorientally.ngrok-free.dev/schedule \
--H "Content-Type: application/json" \
+curl -X POST https://voice-scheduling-agent-npu9.onrender.com/schedule \\
+-H "Content-Type: application/json" \\
 -d '{"name":"Test User","date":"tomorrow","time":"3 PM","meetingTitle":"Test Meeting"}'
 
 ---
@@ -93,7 +97,7 @@ curl -X POST https://leta-ceorlish-semiorientally.ngrok-free.dev/schedule \
 
 npm install
 
-### 2. Create a `.env` file
+### 2. Create a \`.env\` file
 
 GOOGLE_CLIENT_ID=your_client_id  
 GOOGLE_CLIENT_SECRET=your_client_secret  
@@ -104,10 +108,6 @@ GOOGLE_REFRESH_TOKEN=your_refresh_token
 
 node index.js
 
-### 4. (Optional) Expose backend publicly
-
-npx ngrok http 3000
-
 ---
 
 ## Calendar Integration
@@ -117,7 +117,7 @@ This project uses the Google Calendar API with OAuth2 authentication.
 Flow:
 1. User provides scheduling details via voice  
 2. Vapi triggers a tool call  
-3. Backend receives request at `/schedule`  
+3. Backend receives request at \`/schedule\`  
 4. Google Calendar API creates the event  
 5. Event link is returned  
 
@@ -125,15 +125,16 @@ Flow:
 
 ## Notes
 
-- The backend is exposed via ngrok for evaluation purposes  
-- In production, this can be deployed using services like Render, Railway, or AWS  
+- Backend is deployed on Render for public access  
+- Free tier may introduce cold start delays  
 - All events created are real and visible in the connected Google Calendar  
 
 ---
 
 ## Deliverables
 
-- Deployed backend URL  
+- Deployed backend URL (Render)  
 - Voice interaction demo (Loom)  
 - Working Google Calendar integration  
 - Source code and setup instructions  
+
