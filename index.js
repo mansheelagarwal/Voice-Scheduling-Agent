@@ -1,3 +1,5 @@
+process.env.TZ = "America/Los_Angeles";
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -62,6 +64,27 @@ app.get("/oauth2callback", async (req, res) => {
   }
 });
 
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function toRFC3339Local(date) {
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hour = pad(date.getHours());
+  const minute = pad(date.getMinutes());
+  const second = pad(date.getSeconds());
+
+  const offsetMinutes = -date.getTimezoneOffset();
+  const sign = offsetMinutes >= 0 ? "+" : "-";
+  const absOffset = Math.abs(offsetMinutes);
+  const offsetHours = pad(Math.floor(absOffset / 60));
+  const offsetMins = pad(absOffset % 60);
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}${sign}${offsetHours}:${offsetMins}`;
+}
+
 function parseDateTime(date, time) {
   const now = new Date();
   let baseDate = new Date(now);
@@ -71,7 +94,7 @@ function parseDateTime(date, time) {
   if (d === "tomorrow") {
     baseDate.setDate(baseDate.getDate() + 1);
   } else if (d === "today") {
-    // keep current date
+    // keep as today
   } else {
     const parsed = new Date(`${date} ${now.getFullYear()}`);
     if (!isNaN(parsed.getTime())) {
@@ -96,8 +119,8 @@ function parseDateTime(date, time) {
   const endDate = new Date(baseDate.getTime() + 30 * 60 * 1000);
 
   return {
-    start: baseDate.toISOString(),
-    end: endDate.toISOString(),
+    start: toRFC3339Local(baseDate),
+    end: toRFC3339Local(endDate),
   };
 }
 
