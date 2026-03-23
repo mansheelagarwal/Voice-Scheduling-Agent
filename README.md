@@ -113,7 +113,6 @@ node index.js
 
 This project uses the Google Calendar API with OAuth2 authentication in the following way : 
 
-Flow:
 1. User provides scheduling details via voice  
 2. Vapi triggers a tool call  
 3. Backend receives request at \`/schedule\`  
