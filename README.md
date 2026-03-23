@@ -19,11 +19,11 @@ This project implements a deployed voice scheduling agent that:
 
 ## Tech Stack
 
-- Vapi – real-time voice assistant  
-- OpenAI (GPT-4.1) – conversational reasoning  
-- Node.js + Express – backend server  
-- Google Calendar API – event creation  
-- Render – backend deployment  
+- **Vapi** — real-time voice assistant  
+- **OpenAI (GPT-4.1)** — conversational reasoning  
+- **Node.js + Express** — backend server  
+- **Google Calendar API** — event creation  
+- **Render** — backend deployment  
 
 ---
 
@@ -43,13 +43,13 @@ Endpoint used by the voice agent:
 
 https://voice-scheduling-agent-npu9.onrender.com/schedule
 
-Note: Free Render instances may take ~30–50 seconds to wake up on first request.
+> Note: Free Render instances may take ~30–50 seconds to wake up on the first request.
 
 ---
 
 ## Features
 
-- Real-time voice interaction  
+- Real time voice interaction  
 - Structured scheduling flow  
 - Confirmation before booking  
 - Real Google Calendar event creation  
@@ -63,13 +63,9 @@ Note: Free Render instances may take ~30–50 seconds to wake up on first reques
 
 Watch the Loom demo showing the full real-time interaction:
 
-[PASTE YOUR LOOM VIDEO LINK HERE]
+👉 **[This video link]**
 
-This demonstrates:
-- The assistant collecting name, date, and time  
-- Confirmation of details  
-- Backend tool execution  
-- A real Google Calendar event being created  
+This demonstrates the assistant collecting name, date, and time, confirmation of details, backend tool execution and a real Google Calendar event being created  
 
 ---
 
@@ -77,19 +73,15 @@ This demonstrates:
 
 You can test the deployed backend directly using:
 
-curl -X POST https://voice-scheduling-agent-npu9.onrender.com/schedule \\
--H "Content-Type: application/json" \\
--d '{"name":"Test User","date":"tomorrow","time":"3 PM","meetingTitle":"Test Meeting"}'
-
----
-
-### Expected Result
-
-- A success response is returned  
-- A Google Calendar event is created  
-- A calendar event link is generated  
-
----
+```bash
+curl -X POST https://voice-scheduling-agent-npu9.onrender.com/schedule \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Test User",
+  "date": "tomorrow",
+  "time": "3 PM",
+  "meetingTitle": "Test Meeting"
+}'
 
 ## Run Locally
 
@@ -112,7 +104,7 @@ node index.js
 
 ## Calendar Integration
 
-This project uses the Google Calendar API with OAuth2 authentication.
+This project uses the Google Calendar API with OAuth2 authentication in the following way : 
 
 Flow:
 1. User provides scheduling details via voice  
@@ -123,18 +115,5 @@ Flow:
 
 ---
 
-## Notes
 
-- Backend is deployed on Render for public access  
-- Free tier may introduce cold start delays  
-- All events created are real and visible in the connected Google Calendar  
-
----
-
-## Deliverables
-
-- Deployed backend URL (Render)  
-- Voice interaction demo (Loom)  
-- Working Google Calendar integration  
-- Source code and setup instructions  
 
