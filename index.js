@@ -133,11 +133,9 @@ app.post("/schedule", async (req, res) => {
       description: `Scheduled by voice agent for ${name}`,
       start: {
         dateTime: start,
-        timeZone: "America/Los_Angeles",
       },
       end: {
         dateTime: end,
-        timeZone: "America/Los_Angeles",
       },
     };
 
