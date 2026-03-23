@@ -88,18 +88,24 @@ curl -X POST https://voice-scheduling-agent-npu9.onrender.com/schedule \
 
 ### 1. Install dependencies
 
+```bash
 npm install
+```
 
 ### 2. Create a \`.env\` file
 
+```bash
 GOOGLE_CLIENT_ID=your_client_id  
 GOOGLE_CLIENT_SECRET=your_client_secret  
 GOOGLE_REDIRECT_URI=http://localhost:3000/oauth2callback  
-GOOGLE_REFRESH_TOKEN=your_refresh_token  
+GOOGLE_REFRESH_TOKEN=your_refresh_token
+```
 
 ### 3. Start the backend
 
+```bash
 node index.js
+```
 
 ---
 
