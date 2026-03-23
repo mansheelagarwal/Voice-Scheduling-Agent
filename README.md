@@ -63,7 +63,7 @@ https://voice-scheduling-agent-npu9.onrender.com/schedule
 
 Watch the Loom demo showing the full real-time interaction:
 
-👉 **[This video link]**
+https://www.loom.com/share/a739f11d96874e108b27e8c08139621a
 
 This demonstrates the assistant collecting name, date, and time, confirmation of details, backend tool execution and a real Google Calendar event being created  
 
