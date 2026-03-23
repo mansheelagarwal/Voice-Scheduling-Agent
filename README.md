@@ -82,6 +82,7 @@ curl -X POST https://voice-scheduling-agent-npu9.onrender.com/schedule \
   "time": "3 PM",
   "meetingTitle": "Test Meeting"
 }'
+```
 
 ## Run Locally
 
