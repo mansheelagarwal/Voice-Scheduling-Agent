@@ -1,19 +1,6 @@
 # Voice Scheduling Agent
 
-A real-time voice assistant that schedules meetings and creates actual Google Calendar events using Vapi, a Node.js backend, and the Google Calendar API.
-
----
-
-## Overview
-
-This project implements a deployed voice scheduling agent that:
-
-- Initiates a conversation with the user  
-- Collects the user's name  
-- Collects preferred date and time  
-- Optionally collects a meeting title  
-- Confirms the final details  
-- Creates a real Google Calendar event  
+This project is a real-time voice scheduling agent that can have a natural conversation with a user and turn that interaction into an actual Google Calendar event. It walks through a simple flow whicb includes asking for the user’s name, preferred date and time, and an optional meeting title and then creates the event through a deployed backend after confirming the details. 
 
 ---
 
@@ -47,29 +34,17 @@ https://voice-scheduling-agent-npu9.onrender.com/schedule
 
 ---
 
-## Features
 
-- Real time voice interaction  
-- Structured scheduling flow  
-- Confirmation before booking  
-- Real Google Calendar event creation  
-- Publicly accessible deployed backend  
+## Voice Demo
 
----
-
-## How to Test
-
-### Option 1 — Voice Demo (Recommended)
-
-Watch the Loom demo showing the full real-time interaction:
+This Loom demo shows the full real-time interaction:
 
 https://www.loom.com/share/a739f11d96874e108b27e8c08139621a
 
-This demonstrates the assistant collecting name, date, and time, confirmation of details, backend tool execution and a real Google Calendar event being created  
 
 ---
 
-### Option 2 — Direct API Test
+## Direct API Test
 
 You can test the deployed backend directly using:
 
@@ -111,15 +86,21 @@ node index.js
 
 ## Calendar Integration
 
-This project uses the Google Calendar API with OAuth2 authentication in the following way : 
+This project integrates with the Google Calendar API using OAuth2 authentication to create real calendar events based on the user’s voice input.
 
-1. User provides scheduling details via voice  
-2. Vapi triggers a tool call  
-3. Backend receives request at \`/schedule\`  
-4. Google Calendar API creates the event  
-5. Event link is returned  
+When a user interacts with the assistant, their inputs (name, date, time, and an optional meeting title) are structured and sent to a deployed Node.js backend via the `/schedule` endpoint. The backend handles all calendar-related logic.
 
----
+Authentication is managed using Google OAuth2. A refresh token is stored in environment variables, allowing the backend to generate access tokens automatically without requiring the user to log in each time. This keeps the experience seamless while still being secure.
+
+Once the request reaches the backend, the date and time are parsed and converted into a proper RFC3339 datetime format to ensure the event is created accurately with respect to the correct timezone.
+
+The backend then uses the Google Calendar API to create an event in the user’s primary calendar. Each event includes:
+- A summary (either the provided meeting title or a default title)
+- A description indicating it was scheduled via the voice agent
+- Start and end times (default duration of 30 minutes)
+
+After the event is successfully created, the API returns a confirmation along with a direct Google Calendar event link. This link can be used to verify that the event was created correctly.
+
 
 
 
